@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" crossorigin="anonymous">
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type ="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type ="text/javascript">
+        $(document).ready(function() {
+            var socket = io.connect();
+            $('form').submit(function(event){
+                event.preventDefault();
+                socket.emit('submittedForm', {
+                    name: $('#name').val(),
+                    location: $('#location').val(),
+                    language: $('#language').val(),
+                    comment: $('#comment').val()
+                });
+            });
+            
+            socket.on('serverResponse', function(data, randomnum){
+                displayhtml = `<div class="info"><p>You emitted the following information to the server: { name: '${data.response.name}', location: '${data.response.location}', language: '${data.response.language}, comment: '${data.response.comment}' }</p><p>Your lucky number emitted by the server is ${randomnum}</p></div>`;
+                $('.surveyinformation').html(displayhtml);
+            });
+        });
+
+    </script>
+
+</head>
+<body>
+    <div class="container">
+        <div class="surveyinformation">
+            <!-- this is where the survey information is going to display -->
+        </div>
+        <div class="formdiv">
+            <form action="">
+                <div class="form-group">
+                    <label>Your Name:</label>
+                    <input type="text" class="form-control" id="name">
+                </div>
+                <div class="form-group">
+                    <label>Dojo Location</label>
+                    <select class="form-control" id="location">
+                        <option>San Jose</option>
+                        <option>Dallas</option>
+                        <option>Seattle</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Favorite Language</label>
+                    <select class="form-control" id="language">
+                        <option>Java</option>
+                        <option>JavaScript</option>
+                        <option>HTML</option>
+                        <option>Python</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Comment (optional):</label>
+                    <textarea class="form-control" id="comment" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>  <!-- end of container -->
+  
+</body>
+</html>

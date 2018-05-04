@@ -1,0 +1,16 @@
+.formdiv {
+    width: 420px;
+    border: 2px solid black;
+    border-radius: 15px;
+    padding: 25px;
+}
+
+.surveyinformation {
+    width: 420px;
+    background-color: rgb(153, 153, 238);
+    border-radius: 15px;
+}
+
+.info {
+    margin: 10px;
+}
